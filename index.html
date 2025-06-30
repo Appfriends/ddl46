@@ -67,6 +67,10 @@
         .gemini-btn:hover {
             background-color: #0056b3;
         }
+        .gemini-btn:disabled {
+            background-color: #99C7FF;
+            cursor: not-allowed;
+        }
         .gemini-output {
             background-color: #f8f9fa;
             border-left: 4px solid #007BFF;
@@ -93,6 +97,14 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
+    <div id="api-key-banner" class="bg-[#004AAD] text-white p-4 text-center">
+        <p>✨ AI 기능을 사용하려면 Gemini API 키가 필요합니다. <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline font-bold">여기서 무료로 키를 발급받아</a> 아래에 입력해주세요.</p>
+        <div class="flex justify-center items-center mt-2 space-x-2">
+            <input type="password" id="api-key-input" placeholder="여기에 API 키를 붙여넣으세요" class="text-gray-800 p-2 rounded-md w-full max-w-md">
+            <button onclick="saveApiKey()" class="bg-[#007BFF] hover:bg-[#0056b3] text-white font-bold py-2 px-4 rounded-md">저장</button>
+        </div>
+    </div>
+
     <div class="container mx-auto p-4 sm:p-6 md:p-8">
 
         <header class="text-center mb-12">
@@ -108,41 +120,16 @@
                     <p class="mt-2 text-gray-600">성공적인 제품 소싱을 위해 반드시 충족해야 할 핵심 조건들입니다.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="kpi-card">
-                        <div class="text-4xl mb-2">💰</div>
-                        <h3 class="text-xl font-bold text-[#004AAD]">소싱 목표 단가</h3>
-                        <p class="text-2xl font-bold text-[#007BFF] mt-2">$45 내외</p>
-                        <p class="text-sm text-gray-500">B2B 사입 단가 기준</p>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="text-4xl mb-2">👆</div>
-                        <h3 class="text-xl font-bold text-[#004AAD]">필수 기능</h3>
-                        <p class="text-2xl font-bold text-[#007BFF] mt-2">지문 + Wi-Fi</p>
-                        <p class="text-sm text-gray-500">내/외장 연동기 포함</p>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="text-4xl mb-2">📱</div>
-                        <h3 class="text-xl font-bold text-[#004AAD]">앱 연동</h3>
-                        <p class="text-2xl font-bold text-[#007BFF] mt-2">직방 앱 연동</p>
-                        <p class="text-sm text-gray-500">API/SDK 커스터마이징</p>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="text-4xl mb-2">🔑</div>
-                        <h3 class="text-xl font-bold text-[#004AAD]">제품 유형</h3>
-                        <p class="text-2xl font-bold text-[#007BFF] mt-2">주키 (메인락)</p>
-                        <p class="text-sm text-gray-500">Mortise 타입 한정</p>
-                    </div>
+                    <div class="kpi-card"><div class="text-4xl mb-2">💰</div><h3 class="text-xl font-bold text-[#004AAD]">소싱 목표 단가</h3><p class="text-2xl font-bold text-[#007BFF] mt-2">$45 내외</p><p class="text-sm text-gray-500">B2B 사입 단가 기준</p></div>
+                    <div class="kpi-card"><div class="text-4xl mb-2">👆</div><h3 class="text-xl font-bold text-[#004AAD]">필수 기능</h3><p class="text-2xl font-bold text-[#007BFF] mt-2">지문 + Wi-Fi</p><p class="text-sm text-gray-500">내/외장 연동기 포함</p></div>
+                    <div class="kpi-card"><div class="text-4xl mb-2">📱</div><h3 class="text-xl font-bold text-[#004AAD]">앱 연동</h3><p class="text-2xl font-bold text-[#007BFF] mt-2">직방 앱 연동</p><p class="text-sm text-gray-500">API/SDK 커스터마이징</p></div>
+                    <div class="kpi-card"><div class="text-4xl mb-2">🔑</div><h3 class="text-xl font-bold text-[#004AAD]">제품 유형</h3><p class="text-2xl font-bold text-[#007BFF] mt-2">주키 (메인락)</p><p class="text-sm text-gray-500">Mortise 타입 한정</p></div>
                 </div>
             </section>
             
             <section id="positioning-map" class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-[#004AAD]">Market Positioning Map</h2>
-                    <p class="mt-2 text-gray-600">국내 주요 도어락 제품들을 추정 소싱 단가와 제품 유형에 따라 분석한 포지셔닝 맵입니다.</p>
-                </div>
-                <div class="chart-container h-96 md:h-[500px]">
-                    <canvas id="positioningChart"></canvas>
-                </div>
+                <div class="text-center mb-8"><h2 class="text-3xl font-bold text-[#004AAD]">Market Positioning Map</h2><p class="mt-2 text-gray-600">국내 주요 도어락 제품들을 추정 소싱 단가와 제품 유형에 따라 분석한 포지셔닝 맵입니다.</p></div>
+                <div class="chart-container h-96 md:h-[500px]"><canvas id="positioningChart"></canvas></div>
                 <div class="flex justify-center mt-6 space-x-6 text-sm">
                     <div class="flex items-center"><span class="h-4 w-4 rounded-full bg-[#007BFF] mr-2"></span>목표가 충족 후보</div>
                     <div class="flex items-center"><span class="h-4 w-4 rounded-full bg-[#FFA500] mr-2"></span>기술 연동 유력 후보</div>
@@ -151,29 +138,20 @@
             </section>
 
             <section id="candidates">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-[#004AAD]">주요 후보군 상세 비교</h2>
-                    <p class="mt-2 text-gray-600">두 그룹의 핵심 후보 제품들을 AI 기반으로 심층 비교 분석합니다.</p>
-                </div>
+                <div class="text-center mb-8"><h2 class="text-3xl font-bold text-[#004AAD]">주요 후보군 상세 비교</h2><p class="mt-2 text-gray-600">두 그룹의 핵심 후보 제품들을 AI 기반으로 심층 비교 분석합니다.</p></div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    
                     <div class="space-y-6">
                         <h3 class="text-2xl font-semibold text-center text-[#007BFF]">🎯 소싱 목표가 충족 후보 ($45 이하)</h3>
                         <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-                            <h4 class="text-xl font-bold text-[#004AAD]">에버넷 제품군 (AK-N102P, D500)</h4>
-                            <p class="text-3xl font-extrabold text-[#007BFF] my-2">$32 - $35</p>
-                            <p class="text-gray-600">가격 경쟁력이 매우 높으며 저소음, B2B 특화 등 장점이 있습니다. 기술 커스터마이징 가능 여부 확인이 최우선 과제입니다.</p>
+                            <h4 class="text-xl font-bold text-[#004AAD]">에버넷 제품군 (AK-N102P, D500)</h4><p class="text-3xl font-extrabold text-[#007BFF] my-2">$32 - $35</p><p class="text-gray-600">가격 경쟁력이 매우 높으며 저소음, B2B 특화 등 장점이 있습니다. 기술 커스터마이징 가능 여부 확인이 최우선 과제입니다.</p>
                             <button class="gemini-btn w-full mt-4 py-2 px-4 rounded-lg font-bold" onclick="getSwotAnalysis('price')">✨ AI 기반 SWOT 분석 보기</button>
                             <div id="swot-price" class="gemini-output mt-4 p-4 rounded-lg hidden"></div>
                         </div>
                     </div>
-
                     <div class="space-y-6">
                         <h3 class="text-2xl font-semibold text-center text-[#FFA500]">⚙️ 기술 연동 유력 후보 (프리미엄)</h3>
                          <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
-                            <h4 class="text-xl font-bold text-[#004AAD]">하이원플러스/유니코 제품군</h4>
-                            <p class="text-3xl font-extrabold text-[#FFA500] my-2">$88 - $94</p>
-                            <p class="text-gray-600">'직방 연동 적합/유력'으로 언급되어 기술 신뢰도가 높으나, 목표 단가를 크게 상회합니다.</p>
+                            <h4 class="text-xl font-bold text-[#004AAD]">하이원플러스/유니코 제품군</h4><p class="text-3xl font-extrabold text-[#FFA500] my-2">$88 - $94</p><p class="text-gray-600">'직방 연동 적합/유력'으로 언급되어 기술 신뢰도가 높으나, 목표 단가를 크게 상회합니다.</p>
                             <button class="gemini-btn w-full mt-4 py-2 px-4 rounded-lg font-bold" onclick="getSwotAnalysis('tech')">✨ AI 기반 SWOT 분석 보기</button>
                             <div id="swot-tech" class="gemini-output mt-4 p-4 rounded-lg hidden"></div>
                         </div>
@@ -182,46 +160,30 @@
             </section>
             
             <section id="flowchart" class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-                 <div class="text-center mb-10">
-                    <h2 class="text-3xl font-bold text-[#004AAD]">핵심 성공 요인: 연동 방식과 커스터마이징</h2>
-                    <p class="mt-2 text-gray-600">대부분의 제품은 외부 연동기를 통해 Wi-Fi에 연결됩니다. 이 연동기를 직방 서버와 연결하는 것이 핵심입니다.</p>
-                </div>
+                 <div class="text-center mb-10"><h2 class="text-3xl font-bold text-[#004AAD]">핵심 성공 요인: 연동 방식과 커스터마이징</h2><p class="mt-2 text-gray-600">대부분의 제품은 외부 연동기를 통해 Wi-Fi에 연결됩니다. 이 연동기를 직방 서버와 연결하는 것이 핵심입니다.</p></div>
                 <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                    <div class="flowchart-node p-4 rounded-lg text-center shadow-md">
-                        <div class="text-2xl">🚪</div><p class="font-bold">도어락</p><p class="text-xs">Door Lock</p>
-                    </div>
+                    <div class="flowchart-node p-4 rounded-lg text-center shadow-md"><div class="text-2xl">🚪</div><p class="font-bold">도어락</p><p class="text-xs">Door Lock</p></div>
                     <div class="flowchart-arrow text-4xl transform md:-translate-y-2 md:rotate-0 rotate-90">→</div>
-                    <div class="flowchart-node p-4 rounded-lg text-center shadow-md">
-                        <div class="text-2xl">📡</div><p class="font-bold">RF 연동기</p><p class="text-xs">RF Dongle</p>
-                    </div>
+                    <div class="flowchart-node p-4 rounded-lg text-center shadow-md"><div class="text-2xl">📡</div><p class="font-bold">RF 연동기</p><p class="text-xs">RF Dongle</p></div>
                     <div class="flowchart-arrow text-4xl transform md:-translate-y-2 md:rotate-0 rotate-90">→</div>
-                    <div class="flowchart-highlight p-4 rounded-lg text-center shadow-lg">
-                        <div class="text-2xl">⚙️</div><p class="font-bold">펌웨어 커스터마이징</p><p class="text-xs">(Key Success Factor)</p>
-                    </div>
+                    <div class="flowchart-highlight p-4 rounded-lg text-center shadow-lg"><div class="text-2xl">⚙️</div><p class="font-bold">펌웨어 커스터마이징</p><p class="text-xs">(Key Success Factor)</p></div>
                     <div class="flowchart-arrow text-4xl transform md:-translate-y-2 md:rotate-0 rotate-90">→</div>
-                    <div class="flowchart-node p-4 rounded-lg text-center shadow-md">
-                        <div class="text-2xl">☁️</div><p class="font-bold">직방 서버</p><p class="text-xs">Zigbang Server</p>
-                    </div>
+                    <div class="flowchart-node p-4 rounded-lg text-center shadow-md"><div class="text-2xl">☁️</div><p class="font-bold">직방 서버</p><p class="text-xs">Zigbang Server</p></div>
                     <div class="flowchart-arrow text-4xl transform md:-translate-y-2 md:rotate-0 rotate-90">→</div>
-                    <div class="flowchart-node p-4 rounded-lg text-center shadow-md">
-                        <div class="text-2xl">📱</div><p class="font-bold">직방 앱</p><p class="text-xs">Zigbang App</p>
-                    </div>
+                    <div class="flowchart-node p-4 rounded-lg text-center shadow-md"><div class="text-2xl">📱</div><p class="font-bold">직방 앱</p><p class="text-xs">Zigbang App</p></div>
                 </div>
             </section>
             
             <section id="recommendation" class="text-center">
-                <h2 class="text-3xl font-bold text-[#004AAD]">Final Recommendation</h2>
-                 <p class="mt-2 mb-8 text-gray-600">AI 분석을 기반으로 성공적인 소싱을 위한 Two-Track 전략을 제안합니다.</p>
+                <h2 class="text-3xl font-bold text-[#004AAD]">Final Recommendation</h2><p class="mt-2 mb-8 text-gray-600">AI 분석을 기반으로 성공적인 소싱을 위한 Two-Track 전략을 제안합니다.</p>
                 <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-[#007BFF]">
-                        <h3 class="text-xl font-bold text-[#007BFF]">Track 1: 가격 중심 접근 (우선순위)</h3>
-                        <p class="mt-4 text-gray-700">목표가($45 이하)를 충족하는 **에버넷** 제품군을 대상으로, 기술 검증 통과 시 최고의 가격 경쟁력을 확보할 수 있습니다.</p>
+                        <h3 class="text-xl font-bold text-[#007BFF]">Track 1: 가격 중심 접근 (우선순위)</h3><p class="mt-4 text-gray-700">목표가($45 이하)를 충족하는 **에버넷** 제품군을 대상으로, 기술 검증 통과 시 최고의 가격 경쟁력을 확보할 수 있습니다.</p>
                         <button class="gemini-btn w-full mt-4 py-2 px-4 rounded-lg font-bold" onclick="getNegotiationStrategy('price')">✨ AI 협상 전략 제안</button>
                         <div id="strategy-price" class="gemini-output mt-4 p-4 rounded-lg hidden text-left"></div>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-[#FFA500]">
-                        <h3 class="text-xl font-bold text-[#FFA500]">Track 2: 기술 중심 접근 (병행)</h3>
-                        <p class="mt-4 text-gray-700">기술 연동이 유력한 **하이원플러스/유니코** 제품군을 대상으로, 기술 안정성을 우선 확보하는 플랜 B 전략입니다.</p>
+                        <h3 class="text-xl font-bold text-[#FFA500]">Track 2: 기술 중심 접근 (병행)</h3><p class="mt-4 text-gray-700">기술 연동이 유력한 **하이원플러스/유니코** 제품군을 대상으로, 기술 안정성을 우선 확보하는 플랜 B 전략입니다.</p>
                          <button class="gemini-btn w-full mt-4 py-2 px-4 rounded-lg font-bold" onclick="getNegotiationStrategy('tech')">✨ AI 협상 전략 제안</button>
                         <div id="strategy-tech" class="gemini-output mt-4 p-4 rounded-lg hidden text-left"></div>
                     </div>
@@ -229,12 +191,12 @@
             </section>
         </main>
         
-        <footer class="text-center mt-16 py-6 border-t border-gray-300">
-            <p class="text-sm text-gray-500">&copy; 2025 Zigbang Corp. Digital Door Lock Sourcing Analysis.</p>
-        </footer>
+        <footer class="text-center mt-16 py-6 border-t border-gray-300"><p class="text-sm text-gray-500">&copy; 2025 Zigbang Corp. Digital Door Lock Sourcing Analysis.</p></footer>
     </div>
 
 <script>
+const GEMINI_API_KEY_STORAGE = 'gemini_api_key_doorlock_sourcing';
+
 document.addEventListener('DOMContentLoaded', function () {
     const data = {
         targetPrice: [ { x: 1, y: 34.93, label: '에버넷 AK-N102P' }, { x: 1, y: 32.60, label: '에버넷 D500 시리즈' }, ],
@@ -255,100 +217,11 @@ document.addEventListener('DOMContentLoaded', function () {
         options: {
             responsive: true, maintainAspectRatio: false,
             scales: {
-                y: { beginAtZero: false, title: { display: true, text: '추정 소싱 단가 (USD)', font: { size: 14, weight: 'bold' } }, ticks: { callback: function(value, index, values) { return '$' + value; } } },
-                x: { min: 0.5, max: 3.5, title: { display: true, text: '제품 유형', font: { size: 14, weight: 'bold' } }, ticks: { stepSize: 1, callback: function(value, index, values) { const labels = ['', '실속형 (레버)', '보급형 (푸시풀)', '고급형 (프리미엄)']; return labels[value] || ''; } } }
+                y: { beginAtZero: false, title: { display: true, text: '추정 소싱 단가 (USD)', font: { size: 14, weight: 'bold' } }, ticks: { callback: function(value) { return '$' + value; } } },
+                x: { min: 0.5, max: 3.5, title: { display: true, text: '제품 유형', font: { size: 14, weight: 'bold' } }, ticks: { stepSize: 1, callback: function(value) { const labels = ['', '실속형 (레버)', '보급형 (푸시풀)', '고급형 (프리미엄)']; return labels[value] || ''; } } }
             },
             plugins: {
                 legend: { display: false },
                 tooltip: {
                     callbacks: {
-                        title: function(tooltipItems) { const item = tooltipItems[0]; let label = item.chart.data.datasets[item.datasetIndex].data[item.dataIndex].label; if (Array.isArray(label)) { return label.join(' '); } else { return label; } },
-                        label: function(context) { let label = context.dataset.label || ''; if (label) { label += ': '; } label += '$' + context.parsed.y; return label; }
-                    },
-                    backgroundColor: '#004AAD', titleFont: { size: 16 }, bodyFont: { size: 14 }, padding: 12, cornerRadius: 6, displayColors: false
-                }
-            }
-        }
-    });
-});
-
-async function callGeminiAPI(prompt, targetElementId) {
-    const targetElement = document.getElementById(targetElementId);
-    targetElement.innerHTML = '<div class="flex justify-center items-center p-4"><div class="loader"></div></div>';
-    targetElement.classList.remove('hidden');
-
-    let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
-    const payload = { contents: chatHistory };
-    const apiKey = ""; 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-    try {
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-        
-        let text = '오류: 응답을 처리할 수 없습니다.';
-        if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
-            text = result.candidates[0].content.parts[0].text;
-        }
-        
-        const formattedText = text
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-[#004AAD]">$1</strong>')
-            .replace(/\* (.*?)(?=\n\*|\n\n|$)/g, '<li class="mb-2">$1</li>')
-            .replace(/(<\/li>)(<li class="mb-2">)/g, '$1$2')
-            .replace(/<li/g, '<ul class="list-disc list-inside mt-2"><li')
-            .replace(/<\/li>(?!<li)/g, '</li></ul>');
-
-        targetElement.innerHTML = formattedText;
-    } catch (error) {
-        console.error('Gemini API Error:', error);
-        targetElement.innerHTML = '<p class="text-red-500">AI 분석을 가져오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.</p>';
-    }
-}
-
-function getSwotAnalysis(type) {
-    let prompt;
-    let targetElementId;
-
-    if (type === 'price') {
-        prompt = `당신은 소싱 전략 전문가입니다. 직방 스마트홈 플랫폼에 연동할 '에버넷 제품군(AK-N102P, D500)' 도어락 소싱에 대한 SWOT 분석을 실행해 주십시오. 
-        - 제품 정보: 가격 $32-$35 (목표가 $45 대비 매우 저렴), B2B 특화, 저소음 미니 주키 타입.
-        - 핵심 요구사항: 직방 플랫폼 연동을 위한 펌웨어 커스터마이징이 반드시 가능해야 함.
-        - 분석 형식: 강점(Strengths), 약점(Weaknesses), 기회(Opportunities), 위협(Threats) 4개 섹션으로 나누고, 각 섹션에 핵심 내용을 불렛 포인트로 명확하게 제시해 주십시오.`;
-        targetElementId = 'swot-price';
-    } else {
-        prompt = `당신은 소싱 전략 전문가입니다. 직방 스마트홈 플랫폼에 연동할 '하이원플러스/유니코 제품군' 도어락 소싱에 대한 SWOT 분석을 실행해 주십시오. 
-        - 제품 정보: 가격 $88-$94 (목표가 $45 대비 높음), 프리미엄 푸시풀 타입, '직방 연동 적합/유력'으로 사전 언급됨.
-        - 핵심 요구사항: 높은 가격을 정당화할 기술적 안정성 및 파트너십 확보.
-        - 분석 형식: 강점(Strengths), 약점(Weaknesses), 기회(Opportunities), 위협(Threats) 4개 섹션으로 나누고, 각 섹션에 핵심 내용을 불렛 포인트로 명확하게 제시해 주십시오.`;
-        targetElementId = 'swot-tech';
-    }
-    callGeminiAPI(prompt, targetElementId);
-}
-
-function getNegotiationStrategy(type) {
-    let prompt;
-    let targetElementId;
-
-    if (type === 'price') {
-        prompt = `당신은 베테랑 구매 협상가입니다. '직방'이 가격 경쟁력이 매우 높은 '에버넷' 도어락 제품군(소싱가 ~$34)을 소싱하려 합니다.
-        - 최우선 목표: 펌웨어 커스터마이징 가능 여부를 확실하게 검증하고, 기술 지원을 약속받는 것.
-        - 부차적 목표: 현재의 매력적인 가격을 유지하거나 추가 할인을 확보하는 것.
-        이 상황에서 '에버넷'과의 첫 미팅을 위한 협상 전략과 핵심 질문들을 구체적으로 제안해 주십시오. '가격 중심 접근'이라는 제목 아래, 파트너십 구축을 강조하면서도 우리의 기술적 요구사항을 관철하는 방향으로 작성해 주세요.`;
-        targetElementId = 'strategy-price';
-    } else {
-        prompt = `당신은 베테랑 구매 협상가입니다. '직방'이 기술적으로는 매우 적합하지만 가격이 목표가보다 2배 이상 비싼 '하이원플러스/유니코' 제품군(소싱가 ~$90) 소싱을 고려하고 있습니다.
-        - 최우선 목표: 가격을 현실적인 수준으로 낮추는 것.
-        - 핵심 전략: 대규모 물량 보장, 장기 파트너십, 공동 마케팅 등 우리가 제공할 수 있는 가치를 활용하여 가격 인하를 유도하는 것.
-        이 상황에서 '하이원플러스/유니코'와의 협상을 위한 구체적인 전략과 논리, 질문들을 제안해 주십시오. '기술 중심 접근'이라는 제목 아래, 그들의 기술력을 인정하면서도 가격 현실화를 요구하는 논리적인 방향으로 작성해 주세요.`;
-        targetElementId = 'strategy-tech';
-    }
-    callGeminiAPI(prompt, targetElementId);
-}
-
-</script>
-</body>
-</html>
+                        title: function(tooltipItems) { const i
